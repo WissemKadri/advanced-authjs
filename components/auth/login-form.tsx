@@ -8,6 +8,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import FormError from '../form-error';
+import FormSuccess from '../form-success';
 import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
@@ -23,6 +24,7 @@ const LoginForm = () => {
       ? 'Email is already in use with different provider!'
       : '',
   );
+  const [successMessage, setSuccessMessage] = useState<string | undefined>('');
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -36,6 +38,7 @@ const LoginForm = () => {
     startTransition(() => {
       login(values).then(data => {
         setErrorMessage(data?.error);
+        setSuccessMessage(data?.success);
       });
     });
   };
@@ -80,6 +83,7 @@ const LoginForm = () => {
             </div>
 
             <FormError message={errorMessage} />
+            <FormSuccess message={successMessage} />
 
             <Button type="submit" className="w-full">
               Login
