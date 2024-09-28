@@ -1,23 +1,21 @@
 'use client';
 
+import { login } from '@/actions/login';
 import { LoginSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import CardWrapper from './card-wrapper';
+import { z } from 'zod';
+import FormError from '../form-error';
+import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import FormError from '../form-error';
-import FormSuccess from '../form-success';
-import { useState, useTransition } from 'react';
-import { login } from '@/actions/login';
-import { z } from 'zod';
+import CardWrapper from './card-wrapper';
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
-  const [successMessage, setSuccessMessage] = useState<string | undefined>('');
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -30,8 +28,7 @@ const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
       login(values).then(data => {
-        setErrorMessage(data.error);
-        setSuccessMessage(data.success);
+        setErrorMessage(data?.error);
       });
     });
   };
@@ -76,7 +73,6 @@ const LoginForm = () => {
             </div>
 
             <FormError message={errorMessage} />
-            <FormSuccess message={successMessage} />
 
             <Button type="submit" className="w-full">
               Login
