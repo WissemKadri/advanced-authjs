@@ -36,10 +36,15 @@ const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
-      login(values).then(data => {
-        setErrorMessage(data?.error);
-        setSuccessMessage(data?.success);
-      });
+      login(values)
+        .then(data => {
+          setErrorMessage(data?.error);
+          setSuccessMessage(data?.success);
+        })
+        .catch(() => {
+          setErrorMessage('Something went wrong!');
+          setSuccessMessage('');
+        });
     });
   };
 

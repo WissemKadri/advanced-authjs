@@ -30,10 +30,15 @@ const RegisterForm = () => {
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     startTransition(() => {
-      register(values).then(data => {
-        setErrorMessage(data.error);
-        setSuccessMessage(data.success);
-      });
+      register(values)
+        .then(data => {
+          setErrorMessage(data.error);
+          setSuccessMessage(data.success);
+        })
+        .catch(() => {
+          setErrorMessage('Something went wrong!');
+          setSuccessMessage('');
+        });
     });
   };
 
