@@ -1,6 +1,6 @@
 'use client';
 
-import { login } from '@/actions/login';
+import { forgotPassword } from '@/actions/forgot-password';
 import { ResetSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useTransition } from 'react';
@@ -12,7 +12,6 @@ import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
-import { forgotPassword } from '@/actions/forgot-password';
 
 const ForgotPasswordForm = () => {
   const [isPending, startTransition] = useTransition();

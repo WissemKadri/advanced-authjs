@@ -1,4 +1,4 @@
-import { randomUUID as uuidv4 } from 'crypto';
+import { randomInt, randomUUID as uuidv4 } from 'crypto';
 import { db } from './db';
 
 export const generateVerificationToken = async (email: string) => {
@@ -41,4 +41,25 @@ export const generatePasswordResetToken = async (email: string) => {
   });
 
   return passwordResetToken;
+};
+
+export const generateTwoFactorToken = async (email: string) => {
+  const token = randomInt(100_000, 1_000_000).toString();
+  const expires = new Date(new Date().getTime() + 900 * 1000);
+
+  await db.twoFactorToken.deleteMany({
+    where: {
+      email,
+    },
+  });
+
+  const twoFactorToken = await db.twoFactorToken.create({
+    data: {
+      email,
+      token,
+      expires,
+    },
+  });
+
+  return twoFactorToken;
 };

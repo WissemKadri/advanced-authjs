@@ -3,6 +3,7 @@ import NextAuth from 'next-auth';
 import authConfig from './auth.config';
 import { getUserById } from './data/user';
 import { db } from './lib/db';
+import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
 
 export const {
   handlers: { GET, POST },
@@ -30,6 +31,18 @@ export const {
       if (account?.provider !== 'credentials') return true;
 
       if (!user.emailVerified) return false;
+
+      if (user.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(user.id!);
+
+        if (!twoFactorConfirmation) return false;
+
+        await db.twoFactorConfirmation.delete({
+          where: {
+            id: twoFactorConfirmation.id,
+          },
+        });
+      }
 
       return true;
     },
