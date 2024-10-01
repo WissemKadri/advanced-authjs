@@ -50,6 +50,9 @@ dependencies:
   next-auth:
     specifier: 5.0.0-beta.21
     version: 5.0.0-beta.21(next@14.2.13)(react@18.3.1)
+  next-themes:
+    specifier: ^0.3.0
+    version: 0.3.0(react-dom@18.3.1)(react@18.3.1)
   react:
     specifier: ^18.3.1
     version: 18.3.1
@@ -68,6 +71,9 @@ dependencies:
   resend:
     specifier: ^4.0.0
     version: 4.0.0(react-dom@18.3.1)(react@18.3.1)
+  sonner:
+    specifier: ^1.5.0
+    version: 1.5.0(react-dom@18.3.1)(react@18.3.1)
   tailwind-merge:
     specifier: ^2.5.2
     version: 2.5.2
@@ -2843,6 +2849,16 @@ packages:
       react: 18.3.1
     dev: false
 
+  /next-themes@0.3.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-/QHIrsYpd6Kfk7xakK4svpDI5mmXP0gfvCoJdGpZQ2TOrQZmsW0QxjaiLn8wbIKjtm4BTSqLoix4lxYYOnLJ/w==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
   /next@14.2.13(react-dom@18.3.1)(react@18.3.1):
     resolution: {integrity: sha512-BseY9YNw8QJSwLYD7hlZzl6QVDoSFHL/URN5K64kVEVpCsSOWeyjbIGK+dZUaRViHTaMQX8aqmnn0PHBbGZezg==}
     engines: {node: '>=18.17.0'}
@@ -3474,6 +3490,16 @@ packages:
   /signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
+
+  /sonner@1.5.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
 
   /source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
