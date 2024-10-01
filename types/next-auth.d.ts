@@ -10,7 +10,8 @@ declare module 'next-auth' {
   interface Session {
     user: {
       role: UserRole;
-    } & DefaultSession['user'];
+      isTwoFactorEnabled: booolean;
+    } & Pick<User, 'id' | 'name' | 'email' | 'image'>; // Using User instead of DefaultSession['user'] to avoid the transformation to unknown
   }
 }
 
