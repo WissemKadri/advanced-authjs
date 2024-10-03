@@ -1,33 +1,33 @@
-'use client';
+'use client'
 
-import { admin } from '@/actions/admin';
-import RoleGate from '@/components/auth/role-gate';
-import FormSuccess from '@/components/form-success';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { UserRole } from '@prisma/client';
-import { toast } from 'sonner';
+import { admin } from '@/actions/admin'
+import RoleGate from '@/components/auth/role-gate'
+import FormSuccess from '@/components/form-success'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { UserRole } from '@prisma/client'
+import { toast } from 'sonner'
 
 export default function AdminPage() {
   const onApiRouteClick = () => {
     fetch('/api/admin').then(response => {
       if (response.ok) {
-        toast.success('Allowed API Route!');
+        toast.success('Allowed API Route!')
       } else {
-        toast.error('Forbidden API Route!');
+        toast.error('Forbidden API Route!')
       }
-    });
-  };
+    })
+  }
 
   const onServerActionClick = () => {
     admin().then(data => {
       if (data.success) {
-        toast.success('Allowed Server Action!');
+        toast.success('Allowed Server Action!')
       } else {
-        toast.error('Forbidden Server Action!');
+        toast.error('Forbidden Server Action!')
       }
-    });
-  };
+    })
+  }
 
   return (
     <Card className="w-[600px]">
@@ -48,5 +48,5 @@ export default function AdminPage() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

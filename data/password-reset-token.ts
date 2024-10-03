@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from '@/lib/db'
 
 export const getPasswordResetTokenByToken = async (token: string) => {
   try {
@@ -6,10 +6,10 @@ export const getPasswordResetTokenByToken = async (token: string) => {
       where: {
         token,
       },
-    });
+    })
 
-    return passwordResetToken;
+    return passwordResetToken
   } catch {
-    return null;
+    return null
   }
-};
+}

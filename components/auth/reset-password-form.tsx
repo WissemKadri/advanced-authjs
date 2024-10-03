@@ -1,27 +1,34 @@
-'use client';
+'use client'
 
-import { resetPassword } from '@/actions/reset-password';
-import { ResetPasswordSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import FormError from '../form-error';
-import FormSuccess from '../form-success';
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
-import CardWrapper from './card-wrapper';
+import { resetPassword } from '@/actions/reset-password'
+import { ResetPasswordSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'next/navigation'
+import { useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import FormError from '../form-error'
+import FormSuccess from '../form-success'
+import { Button } from '../ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form'
+import { Input } from '../ui/input'
+import CardWrapper from './card-wrapper'
 
 const ResetPasswordForm = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token')
 
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition()
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>('');
-  const [successMessage, setSuccessMessage] = useState<string | undefined>('');
+  const [errorMessage, setErrorMessage] = useState<string | undefined>('')
+  const [successMessage, setSuccessMessage] = useState<string | undefined>('')
 
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -29,21 +36,21 @@ const ResetPasswordForm = () => {
       newPassword: '',
       newPasswordConfirmtion: '',
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
     startTransition(() => {
       resetPassword(values, token)
         .then(data => {
-          setErrorMessage(data?.error);
-          setSuccessMessage(data?.success);
+          setErrorMessage(data?.error)
+          setSuccessMessage(data?.success)
         })
         .catch(() => {
-          setErrorMessage('Something went wrong!');
-          setSuccessMessage('');
-        });
-    });
-  };
+          setErrorMessage('Something went wrong!')
+          setSuccessMessage('')
+        })
+    })
+  }
 
   return (
     <CardWrapper
@@ -93,7 +100,7 @@ const ResetPasswordForm = () => {
         </form>
       </Form>
     </CardWrapper>
-  );
-};
+  )
+}
 
-export default ResetPasswordForm;
+export default ResetPasswordForm

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from '@/lib/db'
 
 export const getVerificationTokenByToken = async (token: string) => {
   try {
@@ -6,10 +6,10 @@ export const getVerificationTokenByToken = async (token: string) => {
       where: {
         token,
       },
-    });
+    })
 
-    return verificationToken;
+    return verificationToken
   } catch {
-    return null;
+    return null
   }
-};
+}

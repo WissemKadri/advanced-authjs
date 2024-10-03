@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import { updateProfile } from '@/actions/settings';
-import FormError from '@/components/form-error';
-import FormSuccess from '@/components/form-success';
-import { Button } from '@/components/ui/button';
+import { updateProfile } from '@/actions/settings'
+import FormError from '@/components/form-error'
+import FormSuccess from '@/components/form-success'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,32 +12,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { UpdateProfileSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserRole } from '@prisma/client';
-import { useSession } from 'next-auth/react';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { UpdateProfileSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { UserRole } from '@prisma/client'
+import { useSession } from 'next-auth/react'
+import { useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../ui/card'
 
 const UpdateProfileForm = () => {
-  const { data, update } = useSession();
+  const { data, update } = useSession()
 
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition()
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>('');
-  const [successMessage, setSuccessMessage] = useState<string | undefined>('');
+  const [errorMessage, setErrorMessage] = useState<string | undefined>('')
+  const [successMessage, setSuccessMessage] = useState<string | undefined>('')
 
   const form = useForm<z.infer<typeof UpdateProfileSchema>>({
     resolver: zodResolver(UpdateProfileSchema),
@@ -47,23 +54,23 @@ const UpdateProfileForm = () => {
       role: data?.user.role,
       isTwoFactorEnabled: data?.user.isTwoFactorEnabled,
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof UpdateProfileSchema>) => {
     startTransition(() => {
       updateProfile(values)
         .then(data => {
-          setErrorMessage(data.error);
-          setSuccessMessage(data.success);
+          setErrorMessage(data.error)
+          setSuccessMessage(data.success)
 
-          if (data.success) update();
+          if (data.success) update()
         })
         .catch(() => {
-          setErrorMessage('Something went wrong!');
-          setSuccessMessage('');
-        });
-    });
-  };
+          setErrorMessage('Something went wrong!')
+          setSuccessMessage('')
+        })
+    })
+  }
 
   return (
     <Card>
@@ -73,7 +80,8 @@ const UpdateProfileForm = () => {
             <CardHeader>
               <CardTitle>Profile</CardTitle>
               <CardDescription>
-                Make changes to your profile here. Click save when you{"'"}re done.
+                Make changes to your profile here. Click save when you{"'"}re
+                done.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -115,7 +123,10 @@ const UpdateProfileForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Role</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a role" />
@@ -143,7 +154,10 @@ const UpdateProfileForm = () => {
                           </FormDescription>
                         </div>
                         <FormControl>
-                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -162,7 +176,7 @@ const UpdateProfileForm = () => {
         </form>
       </Form>
     </Card>
-  );
-};
+  )
+}
 
-export default UpdateProfileForm;
+export default UpdateProfileForm

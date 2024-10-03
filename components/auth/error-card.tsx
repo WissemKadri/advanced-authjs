@@ -1,5 +1,5 @@
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import CardWrapper from './card-wrapper';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import CardWrapper from './card-wrapper'
 
 const ErrorCard = () => {
   return (
@@ -12,7 +12,7 @@ const ErrorCard = () => {
         <ExclamationTriangleIcon className="text-destructive" />
       </div>
     </CardWrapper>
-  );
-};
+  )
+}
 
-export default ErrorCard;
+export default ErrorCard

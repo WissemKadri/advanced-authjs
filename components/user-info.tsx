@@ -1,19 +1,21 @@
-import { Session } from 'next-auth';
-import React from 'react';
-import { Card, CardContent, CardHeader } from './ui/card';
-import { Badge } from './ui/badge';
+import { Session } from 'next-auth'
+import React from 'react'
+import { Card, CardContent, CardHeader } from './ui/card'
+import { Badge } from './ui/badge'
 
 type UserInfoProps = {
-  user?: Session['user'];
-  label: string;
-};
+  user?: Session['user']
+  label: string
+}
 
 const UserInfo = ({ user, label }: UserInfoProps) => {
-  if (!user) return null;
+  if (!user) return null
 
   return (
     <Card className="w-[600px] shadow-md">
-      <CardHeader className="text-2xl font-semibold text-center">{label}</CardHeader>
+      <CardHeader className="text-2xl font-semibold text-center">
+        {label}
+      </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-row items-centter justify-between rounded-lg border p-3 shadow-sm">
           <p className="text-sm font-medium">ID</p>
@@ -47,7 +49,7 @@ const UserInfo = ({ user, label }: UserInfoProps) => {
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default UserInfo;
+export default UserInfo

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from '@/lib/db'
 
 export const getTwoFactorConfirmationByUserId = async (userId: string) => {
   try {
@@ -6,10 +6,10 @@ export const getTwoFactorConfirmationByUserId = async (userId: string) => {
       where: {
         userId,
       },
-    });
+    })
 
-    return twoFactorConfirmation;
+    return twoFactorConfirmation
   } catch {
-    return null;
+    return null
   }
-};
+}

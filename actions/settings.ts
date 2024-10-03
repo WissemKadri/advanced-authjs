@@ -1,47 +1,52 @@
-'use server';
+'use server'
 
-import bcrypt from 'bcryptjs';
-import { getUserByEmail, getUserById } from '@/data/user';
-import { currentUser } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { sendVerificationEmail } from '@/lib/mail';
-import { generateVerificationToken } from '@/lib/tokens';
-import { UpdatePasswordSchema, UpdateProfileSchema } from '@/schemas';
-import { z } from 'zod';
+import bcrypt from 'bcryptjs'
+import { getUserByEmail, getUserById } from '@/data/user'
+import { currentUser } from '@/lib/auth'
+import { db } from '@/lib/db'
+import { sendVerificationEmail } from '@/lib/mail'
+import { generateVerificationToken } from '@/lib/tokens'
+import { UpdatePasswordSchema, UpdateProfileSchema } from '@/schemas'
+import { z } from 'zod'
 
-export const updateProfile = async (values: z.infer<typeof UpdateProfileSchema>) => {
-  const user = await currentUser();
+export const updateProfile = async (
+  values: z.infer<typeof UpdateProfileSchema>
+) => {
+  const user = await currentUser()
 
   if (!user) {
-    return { error: 'Unauthorized' };
+    return { error: 'Unauthorized' }
   }
 
-  const existingUser = await getUserById(user.id!);
+  const existingUser = await getUserById(user.id!)
 
   if (!existingUser) {
-    return { error: 'Unauthorized' };
+    return { error: 'Unauthorized' }
   }
 
-  const validatedFields = UpdateProfileSchema.safeParse(values);
+  const validatedFields = UpdateProfileSchema.safeParse(values)
 
   if (!validatedFields.success) {
-    return { error: 'Invalid fields!' };
+    return { error: 'Invalid fields!' }
   }
 
-  const { name, email, role, isTwoFactorEnabled } = validatedFields.data;
+  const { name, email, role, isTwoFactorEnabled } = validatedFields.data
 
   if (!user.isOAuth && email !== existingUser.email) {
-    const existingUser = await getUserByEmail(email);
+    const existingUser = await getUserByEmail(email)
 
     if (existingUser) {
-      return { error: 'Email is already in use!' };
+      return { error: 'Email is already in use!' }
     }
 
-    const verificationToken = await generateVerificationToken(email);
+    const verificationToken = await generateVerificationToken(email)
 
-    await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    )
 
-    return { success: 'Verification email sent!' };
+    return { success: 'Verification email sent!' }
   }
 
   await db.user.update({
@@ -55,7 +60,7 @@ export const updateProfile = async (values: z.infer<typeof UpdateProfileSchema>)
         isTwoFactorEnabled,
       }),
     },
-  });
+  })
 
   // Does not update client
   /*
@@ -68,41 +73,43 @@ export const updateProfile = async (values: z.infer<typeof UpdateProfileSchema>)
   });
   */
 
-  return { success: 'Profile updated!' };
-};
+  return { success: 'Profile updated!' }
+}
 
-export const updatePassword = async (values: z.infer<typeof UpdatePasswordSchema>) => {
-  const user = await currentUser();
+export const updatePassword = async (
+  values: z.infer<typeof UpdatePasswordSchema>
+) => {
+  const user = await currentUser()
 
   if (!user) {
-    return { error: 'Unauthorized' };
+    return { error: 'Unauthorized' }
   }
 
   if (user.isOAuth) {
-    return { error: 'Bad request!' };
+    return { error: 'Bad request!' }
   }
 
-  const existingUser = await getUserById(user.id!);
+  const existingUser = await getUserById(user.id!)
 
   if (!existingUser) {
-    return { error: 'Unauthorized' };
+    return { error: 'Unauthorized' }
   }
 
-  const validatedFields = UpdatePasswordSchema.safeParse(values);
+  const validatedFields = UpdatePasswordSchema.safeParse(values)
 
   if (!validatedFields.success) {
-    return { error: 'Invalid fields!' };
+    return { error: 'Invalid fields!' }
   }
 
-  const { password, newPassword, newPasswordConfirmtion } = validatedFields.data;
+  const { password, newPassword, newPasswordConfirmtion } = validatedFields.data
 
-  const passwordsMatch = await bcrypt.compare(password, existingUser.password!);
+  const passwordsMatch = await bcrypt.compare(password, existingUser.password!)
 
   if (!passwordsMatch) {
-    return { error: 'Incorrect password!' };
+    return { error: 'Incorrect password!' }
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const hashedPassword = await bcrypt.hash(newPassword, 10)
 
   await db.user.update({
     where: {
@@ -111,7 +118,7 @@ export const updatePassword = async (values: z.infer<typeof UpdatePasswordSchema
     data: {
       password: hashedPassword,
     },
-  });
+  })
 
-  return { success: 'Password updated!' };
-};
+  return { success: 'Password updated!' }
+}

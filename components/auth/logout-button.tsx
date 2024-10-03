@@ -1,17 +1,17 @@
-'use client';
+'use client'
 
-import { signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react'
 
 type LogoutButtonProps = {
-  children?: React.ReactNode;
-};
+  children?: React.ReactNode
+}
 
 const LogoutButton = ({ children }: LogoutButtonProps) => {
   return (
     <span onClick={() => signOut()} className="cursor-pointer">
       {children}
     </span>
-  );
-};
+  )
+}
 
-export default LogoutButton;
+export default LogoutButton

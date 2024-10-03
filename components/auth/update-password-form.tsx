@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import { updatePassword } from '@/actions/settings';
-import FormError from '@/components/form-error';
-import FormSuccess from '@/components/form-success';
-import { Button } from '@/components/ui/button';
+import { updatePassword } from '@/actions/settings'
+import FormError from '@/components/form-error'
+import FormSuccess from '@/components/form-success'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -11,20 +11,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { UpdatePasswordSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { UpdatePasswordSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../ui/card'
 
 const UpdatePasswordForm = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition()
 
-  const [errorMessage, setErrorMessage] = useState<string | undefined>('');
-  const [successMessage, setSuccessMessage] = useState<string | undefined>('');
+  const [errorMessage, setErrorMessage] = useState<string | undefined>('')
+  const [successMessage, setSuccessMessage] = useState<string | undefined>('')
 
   const form = useForm<z.infer<typeof UpdatePasswordSchema>>({
     resolver: zodResolver(UpdatePasswordSchema),
@@ -33,23 +40,23 @@ const UpdatePasswordForm = () => {
       newPassword: '',
       newPasswordConfirmtion: '',
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof UpdatePasswordSchema>) => {
     startTransition(() => {
       updatePassword(values)
         .then(data => {
-          setErrorMessage(data.error);
-          setSuccessMessage(data.success);
+          setErrorMessage(data.error)
+          setSuccessMessage(data.success)
 
-          if (data.success) form.reset();
+          if (data.success) form.reset()
         })
         .catch(() => {
-          setErrorMessage('Something went wrong!');
-          setSuccessMessage('');
-        });
-    });
-  };
+          setErrorMessage('Something went wrong!')
+          setSuccessMessage('')
+        })
+    })
+  }
 
   return (
     <Card>
@@ -59,7 +66,8 @@ const UpdatePasswordForm = () => {
             <CardHeader>
               <CardTitle>Password</CardTitle>
               <CardDescription>
-                Change your password here. After saving, you{"'"}ll be logged out.
+                Change your password here. After saving, you{"'"}ll be logged
+                out.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -115,7 +123,7 @@ const UpdatePasswordForm = () => {
         </form>
       </Form>
     </Card>
-  );
-};
+  )
+}
 
-export default UpdatePasswordForm;
+export default UpdatePasswordForm

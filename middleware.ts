@@ -1,38 +1,46 @@
-import NextAuth from 'next-auth';
-import authConfig from './auth.config';
-import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from './routes';
+import NextAuth from 'next-auth'
+import authConfig from './auth.config'
+import {
+  apiAuthPrefix,
+  authRoutes,
+  DEFAULT_LOGIN_REDIRECT,
+  publicRoutes,
+} from './routes'
 
-const { auth } = NextAuth(authConfig);
+const { auth } = NextAuth(authConfig)
 
 export default auth(req => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const { nextUrl } = req
+  const isLoggedIn = !!req.auth
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
-  if (isApiAuthRoute) return null;
+  if (isApiAuthRoute) return
 
   if (isAuthRoute) {
-    if (isLoggedIn) return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    if (isLoggedIn)
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
 
-    return null;
+    return
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    let callbackUrl = nextUrl.pathname;
+    let callbackUrl = nextUrl.pathname
     if (nextUrl.search) {
-      callbackUrl += nextUrl.search;
+      callbackUrl += nextUrl.search
     }
 
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    const encodedCallbackUrl = encodeURIComponent(callbackUrl)
 
-    return Response.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
+    return Response.redirect(
+      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    )
   }
 
-  return null;
-});
+  return
+})
 
 export const config = {
   matcher: [
@@ -41,4 +49,4 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-};
+}
