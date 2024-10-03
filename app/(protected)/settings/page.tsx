@@ -1,14 +1,27 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { signOut } from 'next-auth/react';
+import UpdatePasswordForm from '@/components/auth/update-password-form';
+import UpdateProfileForm from '@/components/auth/update-profile-form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 export default function SettingsPage() {
+  const user = useCurrentUser();
+
   return (
-    <div className="bg-white p-10 rounded-xl">
-      <Button type="submit" onClick={() => signOut()}>
-        Sign out
-      </Button>
-    </div>
+    <Tabs defaultValue="profile" className="w-[600px]">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="profile">Profile</TabsTrigger>
+        <TabsTrigger value="password" disabled={user?.isOAuth}>
+          Password
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="profile">
+        <UpdateProfileForm />
+      </TabsContent>
+      <TabsContent value="password">
+        <UpdatePasswordForm />
+      </TabsContent>
+    </Tabs>
   );
 }
