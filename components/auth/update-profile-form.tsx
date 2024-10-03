@@ -141,7 +141,7 @@ const UpdateProfileForm = () => {
                     </FormItem>
                   )}
                 />
-                {!data?.user.isTwoFactorEnabled && (
+                {!data?.user.isOAuth && (
                   <FormField
                     control={form.control}
                     name="isTwoFactorEnabled"
