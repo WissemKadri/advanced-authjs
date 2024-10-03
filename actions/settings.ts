@@ -51,7 +51,9 @@ export const updateProfile = async (values: z.infer<typeof UpdateProfileSchema>)
     data: {
       name,
       role,
-      isTwoFactorEnabled,
+      ...(!user.isOAuth && {
+        isTwoFactorEnabled,
+      }),
     },
   });
 

@@ -17,7 +17,7 @@ import Link from 'next/link';
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
-
+  const callbackUrl = searchParams.get('callbackUrl');
   const [isPending, startTransition] = useTransition();
 
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
@@ -38,7 +38,7 @@ const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
-      login(values)
+      login(values, callbackUrl)
         .then(data => {
           if (data?.error) setErrorMessage(data.error);
 

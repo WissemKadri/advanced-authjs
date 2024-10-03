@@ -9,10 +9,9 @@ import { generateTwoFactorToken, generateVerificationToken } from '@/lib/tokens'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { LoginSchema } from '@/schemas';
 import { AuthError } from 'next-auth';
-import { isRedirectError, redirect } from 'next/dist/client/components/redirect';
 import { z } from 'zod';
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (values: z.infer<typeof LoginSchema>, callbackUrl?: string | null) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -79,7 +78,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -91,8 +90,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
           return { error: 'Something went wrong!' };
       }
     }
-
-    if (isRedirectError(error)) return redirect(DEFAULT_LOGIN_REDIRECT);
 
     throw error;
   }
