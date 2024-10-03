@@ -120,7 +120,11 @@ const LoginForm = () => {
                           </Button>
                         </div>
                         <FormControl>
-                          <Input {...field} type="password" />
+                          <Input
+                            {...field}
+                            placeholder="******"
+                            type="password"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -135,7 +139,7 @@ const LoginForm = () => {
                     <FormItem>
                       <FormLabel>Two factor code</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} placeholder="XXXXXX" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

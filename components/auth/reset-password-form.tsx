@@ -69,7 +69,7 @@ const ResetPasswordForm = () => {
                   <FormItem>
                     <FormLabel>New password</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input {...field} placeholder="******" type="password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -82,7 +82,7 @@ const ResetPasswordForm = () => {
                   <FormItem>
                     <FormLabel>New password confirmation</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" />
+                      <Input {...field} placeholder="******" type="password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
