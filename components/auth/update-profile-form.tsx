@@ -42,8 +42,8 @@ const UpdateProfileForm = () => {
   const form = useForm<z.infer<typeof UpdateProfileSchema>>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
-      name: data?.user.name!,
-      email: data?.user.email!,
+      name: data?.user.name ?? '',
+      email: data?.user.email ?? '',
       role: data?.user.role,
       isTwoFactorEnabled: data?.user.isTwoFactorEnabled,
     },
@@ -73,7 +73,7 @@ const UpdateProfileForm = () => {
             <CardHeader>
               <CardTitle>Profile</CardTitle>
               <CardDescription>
-                Make changes to your profile here. Click save when you're done.
+                Make changes to your profile here. Click save when you{"'"}re done.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
