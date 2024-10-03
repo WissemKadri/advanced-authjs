@@ -13,13 +13,21 @@ export const RegisterSchema = z.object({
   password: z.string().min(6, 'The password must be at least 6 characters'),
 });
 
-export const ResetSchema = z.object({
+export const ForgotPasswordSchema = z.object({
   email: z.string().min(1, 'Email is required').email(),
 });
 
-export const NewPasswordSchema = z.object({
-  password: z.string().min(6, 'The password must be at least 6 characters'),
-});
+export const ResetPasswordSchema = z
+  .object({
+    newPassword: z.string().min(6, 'The new password must be at least 6 characters'),
+    newPasswordConfirmtion: z
+      .string()
+      .min(6, 'The new password confirmation must be at least 6 characters'),
+  })
+  .refine(data => data.newPassword === data.newPasswordConfirmtion, {
+    message: "Passwords don't match",
+    path: ['newPasswordConfirmtion'],
+  });
 
 export const UpdateProfileSchema = z.object({
   name: z.string().min(1, 'Name is required'),

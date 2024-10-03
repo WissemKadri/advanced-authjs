@@ -1,7 +1,7 @@
 'use client';
 
 import { resetPassword } from '@/actions/reset-password';
-import { NewPasswordSchema } from '@/schemas';
+import { ResetPasswordSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
@@ -23,14 +23,15 @@ const ResetPasswordForm = () => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
   const [successMessage, setSuccessMessage] = useState<string | undefined>('');
 
-  const form = useForm<z.infer<typeof NewPasswordSchema>>({
-    resolver: zodResolver(NewPasswordSchema),
+  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      password: '',
+      newPassword: '',
+      newPasswordConfirmtion: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetPasswordSchema>) => {
     startTransition(() => {
       resetPassword(values, token)
         .then(data => {
@@ -56,10 +57,23 @@ const ResetPasswordForm = () => {
             <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="password"
+                name="newPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>New password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="newPasswordConfirmtion"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>New password confirmation</FormLabel>
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>

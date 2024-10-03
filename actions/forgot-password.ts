@@ -3,11 +3,11 @@
 import { getUserByEmail } from '@/data/user';
 import { sendPasswordResetEmail } from '@/lib/mail';
 import { generatePasswordResetToken } from '@/lib/tokens';
-import { ResetSchema } from '@/schemas';
+import { ForgotPasswordSchema } from '@/schemas';
 import { z } from 'zod';
 
-export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
-  const validatedFields = ResetSchema.safeParse(values);
+export const forgotPassword = async (values: z.infer<typeof ForgotPasswordSchema>) => {
+  const validatedFields = ForgotPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: 'Invalid email!' };

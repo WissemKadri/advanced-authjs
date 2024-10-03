@@ -1,7 +1,7 @@
 'use client';
 
 import { forgotPassword } from '@/actions/forgot-password';
-import { ResetSchema } from '@/schemas';
+import { ForgotPasswordSchema } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,14 +19,14 @@ const ForgotPasswordForm = () => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>('');
   const [successMessage, setSuccessMessage] = useState<string | undefined>('');
 
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
       email: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
     startTransition(() => {
       forgotPassword(values)
         .then(data => {
